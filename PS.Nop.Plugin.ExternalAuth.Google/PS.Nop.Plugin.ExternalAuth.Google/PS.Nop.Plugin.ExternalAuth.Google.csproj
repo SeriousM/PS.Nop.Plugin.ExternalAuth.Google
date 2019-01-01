@@ -61,6 +61,9 @@
     <None Update="Content\Images\linkedin-signing.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Libs\Microsoft.AspNetCore.Authentication.Google.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="plugin.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -73,5 +76,6 @@
     <Delete Files="$(TargetDir)\Nop.Services.dll" />
     <Delete Files="$(TargetDir)\Nop.Services.pdb" />
     <Delete Files="$(TargetDir)\Nop.Web.Framework.dll" />
+    <Copy SourceFiles="$(ProjectDir)\Libs\Microsoft.AspNetCore.Authentication.Google.dll" DestinationFolder="$(TargetDir)" />
   </Target>
 </Project>
