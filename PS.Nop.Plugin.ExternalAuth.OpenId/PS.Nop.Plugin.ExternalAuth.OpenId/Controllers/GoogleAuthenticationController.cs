@@ -18,17 +18,11 @@ namespace PS.Nop.Plugin.ExternalAuth.Google.Controllers
 {
     public class PSGoogleAuthenticationController : BasePluginController
     {
-        #region Fields
-
-        private readonly GoogleExternalAuthSettings _googleExternalAuthSettings;
+      private readonly GoogleExternalAuthSettings _googleExternalAuthSettings;
         private readonly IExternalAuthenticationService _externalAuthenticationService;
         private readonly ILocalizationService _localizationService;
         private readonly IPermissionService _permissionService;
         private readonly ISettingService _settingService;
-
-        #endregion
-
-        #region Ctor
 
         public PSGoogleAuthenticationController(GoogleExternalAuthSettings linkedInExternalAuthSettings,
             IExternalAuthenticationService externalAuthenticationService,
@@ -42,10 +36,6 @@ namespace PS.Nop.Plugin.ExternalAuth.Google.Controllers
             this._permissionService = permissionService;
             this._settingService = settingService;
         }
-
-        #endregion
-
-        #region Methods
 
         [AuthorizeAdmin]
         [Area(AreaNames.Admin)]
@@ -121,7 +111,5 @@ namespace PS.Nop.Plugin.ExternalAuth.Google.Controllers
             //authenticate Nop user
             return _externalAuthenticationService.Authenticate(authenticationParameters, returnUrl);
         }
-
-        #endregion
     }
 }

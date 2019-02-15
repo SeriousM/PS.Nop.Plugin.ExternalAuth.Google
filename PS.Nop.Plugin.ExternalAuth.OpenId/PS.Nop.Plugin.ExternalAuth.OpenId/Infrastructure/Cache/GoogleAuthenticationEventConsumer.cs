@@ -13,24 +13,14 @@ namespace PS.Nop.Plugin.ExternalAuth.Google.Infrastructure.Cache
     /// </summary>
     public partial class GoogleAuthenticationEventConsumer : IConsumer<CustomerAutoRegisteredByExternalMethodEvent>
     {
-        #region Fields
-        
-        private readonly IGenericAttributeService _genericAttributeService;
+      private readonly IGenericAttributeService _genericAttributeService;
 
-        #endregion
-
-        #region Ctor
-
-        public GoogleAuthenticationEventConsumer(IGenericAttributeService genericAttributeService)
+      public GoogleAuthenticationEventConsumer(IGenericAttributeService genericAttributeService)
         {
             this._genericAttributeService = genericAttributeService;
         }
 
-        #endregion
-
-        #region Methods
-
-        public void HandleEvent(CustomerAutoRegisteredByExternalMethodEvent eventMessage)
+      public void HandleEvent(CustomerAutoRegisteredByExternalMethodEvent eventMessage)
         {
             if (eventMessage?.Customer == null || eventMessage.AuthenticationParameters == null)
                 return;
@@ -48,7 +38,5 @@ namespace PS.Nop.Plugin.ExternalAuth.Google.Infrastructure.Cache
             if (!string.IsNullOrEmpty(lastName))
                 _genericAttributeService.SaveAttribute(eventMessage.Customer, NopCustomerDefaults.LastNameAttribute, lastName);
         }
-
-        #endregion
     }
 }

@@ -11,15 +11,9 @@ namespace PS.Nop.Plugin.ExternalAuth.Google
 {
     public class GoogleAuthenticationMethod : BasePlugin, IExternalAuthenticationMethod
     {
-        #region Fields
-
-        private readonly ILocalizationService _localizationService;
+      private readonly ILocalizationService _localizationService;
         private readonly ISettingService _settingService;
         private readonly IWebHelper _webHelper;
-
-        #endregion
-
-        #region Ctor
 
         public GoogleAuthenticationMethod(ILocalizationService localizationService,
             ISettingService settingService,
@@ -29,10 +23,6 @@ namespace PS.Nop.Plugin.ExternalAuth.Google
             this._settingService = settingService;
             this._webHelper = webHelper;
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Gets a configuration page URL
@@ -86,7 +76,5 @@ namespace PS.Nop.Plugin.ExternalAuth.Google
 
             base.Uninstall();
         }
-
-        #endregion
     }
 }
