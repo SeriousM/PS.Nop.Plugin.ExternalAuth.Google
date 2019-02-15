@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Framework.Components;
-using PS.Nop.Plugin.ExternalAuth.Google;
 
-namespace PS.Nop.Plugin.ExternalAuth.Google.Components
+namespace PS.Nop.Plugin.ExternalAuth.OpenId.Components
 {
     [ViewComponent(Name = GoogleExternalAuthConstants.ViewComponentName)]
     public class GoogleAuthenticationViewComponent : NopViewComponent

@@ -4,9 +4,8 @@ using Nop.Core.Domain.Customers;
 using Nop.Services.Authentication.External;
 using Nop.Services.Common;
 using Nop.Services.Events;
-using PS.Nop.Plugin.ExternalAuth.Google;
 
-namespace PS.Nop.Plugin.ExternalAuth.Google.Infrastructure.Cache
+namespace PS.Nop.Plugin.ExternalAuth.OpenId.Infrastructure.Cache
 {
     /// <summary>
     /// Facebook authentication event consumer (used for saving customer fields on registration)

@@ -1,12 +1,10 @@
 using System;
-using System.Linq;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Infrastructure;
 using Nop.Services.Authentication.External;
-using System.Security.Claims;
 
-namespace PS.Nop.Plugin.ExternalAuth.Google.Infrastructure
+namespace PS.Nop.Plugin.ExternalAuth.OpenId.Infrastructure
 {
 
     public class GoogleAuthenticationRegistrar : IExternalAuthenticationRegistrar

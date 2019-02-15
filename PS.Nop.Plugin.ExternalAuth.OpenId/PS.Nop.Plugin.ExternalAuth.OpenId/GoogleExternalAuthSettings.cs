@@ -1,9 +1,6 @@
 using Nop.Core.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace PS.Nop.Plugin.ExternalAuth.Google
+namespace PS.Nop.Plugin.ExternalAuth.OpenId
 {
   public class GoogleExternalAuthSettings : ISettings
   {

@@ -1,7 +1,7 @@
-using Nop.Web.Framework.Mvc.ModelBinding;
 using Nop.Web.Framework.Models;
+using Nop.Web.Framework.Mvc.ModelBinding;
 
-namespace PS.Nop.Plugin.ExternalAuth.Google.Models
+namespace PS.Nop.Plugin.ExternalAuth.OpenId.Models
 {
     public class ConfigurationModel : BaseNopModel
     {

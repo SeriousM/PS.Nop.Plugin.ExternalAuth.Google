@@ -12,9 +12,9 @@ using Nop.Services.Security;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
-using PS.Nop.Plugin.ExternalAuth.Google.Models;
+using PS.Nop.Plugin.ExternalAuth.OpenId.Models;
 
-namespace PS.Nop.Plugin.ExternalAuth.Google.Controllers
+namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
 {
     public class PSGoogleAuthenticationController : BasePluginController
     {

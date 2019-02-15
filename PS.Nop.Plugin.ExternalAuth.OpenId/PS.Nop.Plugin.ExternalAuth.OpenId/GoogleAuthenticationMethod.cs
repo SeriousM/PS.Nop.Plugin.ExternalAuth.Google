@@ -3,11 +3,8 @@ using Nop.Core.Plugins;
 using Nop.Services.Authentication.External;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace PS.Nop.Plugin.ExternalAuth.Google
+namespace PS.Nop.Plugin.ExternalAuth.OpenId
 {
     public class GoogleAuthenticationMethod : BasePlugin, IExternalAuthenticationMethod
     {
