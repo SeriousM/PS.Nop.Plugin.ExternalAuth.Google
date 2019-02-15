@@ -46,8 +46,12 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
 
             var model = new ConfigurationModel
             {
-                ClientId = _openIdExternalAuthSettings.ClientKeyIdentifier,
-                ClientSecret = _openIdExternalAuthSettings.ClientSecret
+                ClientId = _openIdExternalAuthSettings.ClientId,
+                ClientSecret = _openIdExternalAuthSettings.ClientSecret,
+                ResponseType = _openIdExternalAuthSettings.ResponseType,
+                Scopes = _openIdExternalAuthSettings.Scopes,
+                Authority = _openIdExternalAuthSettings.Authority,
+                RequiresHttps = _openIdExternalAuthSettings.RequiresHttps
             };
 
             return View("~/Plugins/PS.ExternalAuth.OpenId/Views/Configure.cshtml", model);
@@ -66,8 +70,12 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
                 return Configure();
 
             //save settings
-            _openIdExternalAuthSettings.ClientKeyIdentifier = model.ClientId;
-            _openIdExternalAuthSettings.ClientSecret = model.ClientSecret;
+            _openIdExternalAuthSettings.ClientId = model.ClientId.Trim();
+            _openIdExternalAuthSettings.ClientSecret = model.ClientSecret.Trim();
+            _openIdExternalAuthSettings.ResponseType = model.ResponseType.Trim();
+            _openIdExternalAuthSettings.Scopes = model.Scopes.Trim();
+            _openIdExternalAuthSettings.Authority = model.Authority.Trim();
+            _openIdExternalAuthSettings.RequiresHttps = model.RequiresHttps;
             _settingService.SaveSetting(_openIdExternalAuthSettings);
             SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
 
@@ -79,7 +87,7 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
             if (!_externalAuthenticationService.ExternalAuthenticationMethodIsAvailable(OpenIdExternalAuthConstants.ProviderSystemName))
                 throw new NopException("OpenId authentication module cannot be loaded");
 
-            if (string.IsNullOrEmpty(_openIdExternalAuthSettings.ClientKeyIdentifier) || string.IsNullOrEmpty(_openIdExternalAuthSettings.ClientSecret))
+            if (!_openIdExternalAuthSettings.IsValid())
                 throw new NopException("OpenId authentication module not configured");
 
             //configure login callback action

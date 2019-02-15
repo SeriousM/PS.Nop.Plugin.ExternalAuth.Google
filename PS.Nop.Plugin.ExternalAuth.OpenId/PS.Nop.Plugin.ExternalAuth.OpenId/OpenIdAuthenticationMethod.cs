@@ -44,14 +44,29 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId
         public override void Install()
         {
             //settings
-            _settingService.SaveSetting(new OpenIdExternalAuthSettings());
+            var defaultSettings = new OpenIdExternalAuthSettings
+            {
+              RequiresHttps = true, 
+              Scopes = "openid profile email", 
+              ResponseType = "implicit"
+            };
+            _settingService.SaveSetting(defaultSettings);
 
             //locales
-            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientKeyIdentifier", "App ID/API Key");
-            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientKeyIdentifier.Hint", "Enter your app ID/API key here. You can find it on your FaceBook application page.");
-            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientSecret", "App Secret");
-            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientSecret.Hint", "Enter your app secret here. You can find it on your FaceBook application page.");
-            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.Instructions", "<p>To configure authentication with OpenId, please follow these steps:<br /><br /></p><ol><li>Start by navigating to <a href=\"https://console.developers.google.com/projectselector/apis/library\" target=\"_blank\"> Google API Console</a>. Login using your gmail account.</li><li>On the API Manager and under the Library menu, choose to create a new project.</li><li>Provide Project name and agree to the terms of service</li><li>Next step is to create credentials to use with the API. This you can do under the menu Credentials. Here, press the button for Create Cedentials and then choose OAuth client ID</li><li>On the next page choose Web application under Application type and write a name in the Name input field. Go down to the section for Authorized redirect URIs, enter \"YourStoreUrl/signin-google\" in that field (start with http or https). Copy or write down the Client ID and Client secret on the top of the page and then press Save.</li><li>Input the Client ID you copied in the last step into the App ID field below and the Client secret into the App secret field.</li></ol><p><br /><br /></p>");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.Authority", "Authentication Server");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.Authority.Hint", "The server address of the authentication server");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ResponseType", "Authentication Type");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ResponseType.Hint", "The authentication type, like implicit or code");
+
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientId", "Client ID");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientId.Hint", "Enter your client id");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientSecret", "Client Secret (optional)");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientSecret.Hint", "Enter your app secret here.");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.RequiresHttps", "HTTPS Required (recommended)");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.RequiresHttps.Hint", "Define if the communication with the Authentication Server is only allowed over https or not");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.Scopes", "Scopes");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.Scopes.Hint", "The scopes required");
+            _localizationService.AddOrUpdatePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.Instructions", "<p>To configure authentication with OpenId, please follow these steps:<br /><br /></p><ol><li>Start by navigating to <a href=\"https://console.developers.google.com/projectselector/apis/library\" target=\"_blank\"> Google API Console</a>. Login using your gmail account.</li><li>On the API Manager and under the Library menu, choose to create a new project.</li><li>Provide Project name and agree to the terms of service</li><li>Next step is to create credentials to use with the API. This you can do under the menu Credentials. Here, press the button for Create Cedentials and then choose OAuth client ID</li><li>On the next page choose Web application under Application type and write a name in the Name input field. Go down to the section for Authorized redirect URIs, enter \"YourStoreUrl/signin-openid\" in that field (start with http or https). Copy or write down the Client ID and Client secret on the top of the page and then press Save.</li><li>Input the Client ID you copied in the last step into the App ID field below and the Client secret into the App secret field.</li></ol><p><br /><br /></p>");
 
             base.Install();
         }
@@ -65,10 +80,18 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId
             _settingService.DeleteSetting<OpenIdExternalAuthSettings>();
 
             //locales
-            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientKeyIdentifier");
-            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientKeyIdentifier.Hint");
+            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.Authority");
+            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.Authority.Hint");
+            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ResponseType");
+            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ResponseType.Hint");
+            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientId");
+            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientId.Hint");
             _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientSecret");
             _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.ClientSecret.Hint");
+            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.RequiresHttps");
+            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.RequiresHttps.Hint");
+            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.Scopes");
+            _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.Scopes.Hint");
             _localizationService.DeletePluginLocaleResource("PS.Plugins.ExternalAuth.OpenId.Instructions");
 
             base.Uninstall();

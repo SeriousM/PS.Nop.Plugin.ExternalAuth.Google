@@ -17,7 +17,7 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId
     /// <summary>
     /// Gets or sets OAuth2 client identifier
     /// </summary>
-    public string ClientKeyIdentifier { get; set; }
+    public string ClientId { get; set; }
 
     /// <summary>
     /// Gets or sets OAuth2 client secret
@@ -33,5 +33,14 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId
     /// Scopes to request, separated with single space
     /// </summary>
     public string Scopes { get; set; }
+
+    public bool IsValid()
+    {
+      return !string.IsNullOrWhiteSpace(Authority)
+          && !string.IsNullOrWhiteSpace(ResponseType)
+          && !string.IsNullOrWhiteSpace(ClientId)
+          && !string.IsNullOrWhiteSpace(Scopes);
+
+    }
   }
 }

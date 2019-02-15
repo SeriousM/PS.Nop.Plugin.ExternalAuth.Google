@@ -24,7 +24,7 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Infrastructure
                   options.Scope.Add(scope);
                 }
                 
-                options.ClientId = settings.ClientKeyIdentifier;
+                options.ClientId = settings.ClientId;
                 options.ClientSecret = settings.ClientSecret;
                 options.SaveTokens = true;
             });
