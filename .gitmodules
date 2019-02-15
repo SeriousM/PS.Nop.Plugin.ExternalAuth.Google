@@ -1,0 +1,3 @@
+[submodule "ext/nopCommerce"]
+	path = ext/nopCommerce
+	url = https://github.com/nopSolutions/nopCommerce
