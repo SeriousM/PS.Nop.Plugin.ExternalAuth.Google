@@ -2,7 +2,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Services.Authentication.External;
@@ -16,21 +16,21 @@ using PS.Nop.Plugin.ExternalAuth.OpenId.Models;
 
 namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
 {
-    public class PSGoogleAuthenticationController : BasePluginController
+    public class PSOpenIdAuthenticationController : BasePluginController
     {
-      private readonly GoogleExternalAuthSettings _googleExternalAuthSettings;
+      private readonly OpenIdExternalAuthSettings _openIdExternalAuthSettings;
         private readonly IExternalAuthenticationService _externalAuthenticationService;
         private readonly ILocalizationService _localizationService;
         private readonly IPermissionService _permissionService;
         private readonly ISettingService _settingService;
 
-        public PSGoogleAuthenticationController(GoogleExternalAuthSettings linkedInExternalAuthSettings,
+        public PSOpenIdAuthenticationController(OpenIdExternalAuthSettings openIdExternalAuthSettings,
             IExternalAuthenticationService externalAuthenticationService,
             ILocalizationService localizationService,
             IPermissionService permissionService,
             ISettingService settingService)
         {
-            this._googleExternalAuthSettings = linkedInExternalAuthSettings;
+            this._openIdExternalAuthSettings = openIdExternalAuthSettings;
             this._externalAuthenticationService = externalAuthenticationService;
             this._localizationService = localizationService;
             this._permissionService = permissionService;
@@ -46,11 +46,11 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
 
             var model = new ConfigurationModel
             {
-                ClientId = _googleExternalAuthSettings.ClientKeyIdentifier,
-                ClientSecret = _googleExternalAuthSettings.ClientSecret
+                ClientId = _openIdExternalAuthSettings.ClientKeyIdentifier,
+                ClientSecret = _openIdExternalAuthSettings.ClientSecret
             };
 
-            return View("~/Plugins/PS.ExternalAuth.Google/Views/Configure.cshtml", model);
+            return View("~/Plugins/PS.ExternalAuth.OpenId/Views/Configure.cshtml", model);
         }
 
         [HttpPost]
@@ -66,9 +66,9 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
                 return Configure();
 
             //save settings
-            _googleExternalAuthSettings.ClientKeyIdentifier = model.ClientId;
-            _googleExternalAuthSettings.ClientSecret = model.ClientSecret;
-            _settingService.SaveSetting(_googleExternalAuthSettings);
+            _openIdExternalAuthSettings.ClientKeyIdentifier = model.ClientId;
+            _openIdExternalAuthSettings.ClientSecret = model.ClientSecret;
+            _settingService.SaveSetting(_openIdExternalAuthSettings);
             SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
 
             return Configure();
@@ -76,32 +76,32 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
 
         public IActionResult Login(string returnUrl)
         {
-            if (!_externalAuthenticationService.ExternalAuthenticationMethodIsAvailable(GoogleExternalAuthConstants.ProviderSystemName))
-                throw new NopException("Google authentication module cannot be loaded");
+            if (!_externalAuthenticationService.ExternalAuthenticationMethodIsAvailable(OpenIdExternalAuthConstants.ProviderSystemName))
+                throw new NopException("OpenId authentication module cannot be loaded");
 
-            if (string.IsNullOrEmpty(_googleExternalAuthSettings.ClientKeyIdentifier) || string.IsNullOrEmpty(_googleExternalAuthSettings.ClientSecret))
-                throw new NopException("Google authentication module not configured");
+            if (string.IsNullOrEmpty(_openIdExternalAuthSettings.ClientKeyIdentifier) || string.IsNullOrEmpty(_openIdExternalAuthSettings.ClientSecret))
+                throw new NopException("OpenId authentication module not configured");
 
             //configure login callback action
             var authenticationProperties = new AuthenticationProperties
             {
-                RedirectUri = Url.Action("LoginCallback", "PSGoogleAuthentication", new { returnUrl = returnUrl })
+                RedirectUri = Url.Action("LoginCallback", "PSOpenIdAuthentication", new { returnUrl = returnUrl })
             };
 
-            return Challenge(authenticationProperties, GoogleDefaults.AuthenticationScheme);
+            return Challenge(authenticationProperties, OpenIdConnectDefaults.AuthenticationScheme);
         }
 
         public async Task<IActionResult> LoginCallback(string returnUrl)
         {
             //authenticate Facebook user
-            var authenticateResult =  await this.HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+            var authenticateResult =  await this.HttpContext.AuthenticateAsync(OpenIdConnectDefaults.AuthenticationScheme);
             if (!authenticateResult.Succeeded || !authenticateResult.Principal.Claims.Any())
                 return RedirectToRoute("Login");
 
             //create external authentication parameters
             var authenticationParameters = new ExternalAuthenticationParameters
             {
-                ProviderSystemName = GoogleExternalAuthConstants.ProviderSystemName,
+                ProviderSystemName = OpenIdExternalAuthConstants.ProviderSystemName,
                 Email = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.Email)?.Value,
                 ExternalIdentifier = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value,
                 ExternalDisplayIdentifier = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.Name)?.Value,

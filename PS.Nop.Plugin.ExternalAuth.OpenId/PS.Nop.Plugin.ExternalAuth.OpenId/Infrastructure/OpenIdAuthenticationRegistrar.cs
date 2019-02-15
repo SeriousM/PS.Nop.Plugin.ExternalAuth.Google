@@ -6,14 +6,13 @@ using Nop.Services.Authentication.External;
 
 namespace PS.Nop.Plugin.ExternalAuth.OpenId.Infrastructure
 {
-
-    public class GoogleAuthenticationRegistrar : IExternalAuthenticationRegistrar
+    public class OpenIdAuthenticationRegistrar : IExternalAuthenticationRegistrar
     {
         public void Configure(AuthenticationBuilder builder)
         {
             builder.AddOpenIdConnect(options =>
             {
-                var settings = EngineContext.Current.Resolve<GoogleExternalAuthSettings>();
+                var settings = EngineContext.Current.Resolve<OpenIdExternalAuthSettings>();
                 options.Authority = settings.Authority;
                 options.ResponseType = settings.ResponseType;
 

@@ -8,13 +8,13 @@ using Nop.Services.Events;
 namespace PS.Nop.Plugin.ExternalAuth.OpenId.Infrastructure.Cache
 {
     /// <summary>
-    /// Facebook authentication event consumer (used for saving customer fields on registration)
+    /// OpenIdConnect authentication event consumer (used for saving customer fields on registration)
     /// </summary>
-    public partial class GoogleAuthenticationEventConsumer : IConsumer<CustomerAutoRegisteredByExternalMethodEvent>
+    public partial class OpenIdAuthenticationEventConsumer : IConsumer<CustomerAutoRegisteredByExternalMethodEvent>
     {
       private readonly IGenericAttributeService _genericAttributeService;
 
-      public GoogleAuthenticationEventConsumer(IGenericAttributeService genericAttributeService)
+      public OpenIdAuthenticationEventConsumer(IGenericAttributeService genericAttributeService)
         {
             this._genericAttributeService = genericAttributeService;
         }
@@ -25,7 +25,7 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Infrastructure.Cache
                 return;
 
             //handle event only for this authentication method
-            if (!eventMessage.AuthenticationParameters.ProviderSystemName.Equals(GoogleExternalAuthConstants.ProviderSystemName))
+            if (!eventMessage.AuthenticationParameters.ProviderSystemName.Equals(OpenIdExternalAuthConstants.ProviderSystemName))
                 return;
 
             //store some of the customer fields

@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Content\googlestyles.css" />
-    <None Remove="Content\Images\google-signing.psd" />
+    <None Remove="Content\Images\openid-signing.psd" />
+    <None Remove="Content\styles.css" />
     <None Remove="logo.jpg" />
     <None Remove="Views\Configure.cshtml" />
     <None Remove="Views\PublicInfo.cshtml" />
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Content\googlestyles.css">
+    <Content Include="Content\styles.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="logo.jpg">
@@ -53,7 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Content\Images\google-signing.png">
+    <None Update="Content\Images\openid-signing.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Content\Images\linkedin-signing.png">

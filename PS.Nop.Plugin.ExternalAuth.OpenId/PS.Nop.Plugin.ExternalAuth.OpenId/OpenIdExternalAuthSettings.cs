@@ -2,7 +2,7 @@ using Nop.Core.Configuration;
 
 namespace PS.Nop.Plugin.ExternalAuth.OpenId
 {
-  public class GoogleExternalAuthSettings : ISettings
+  public class OpenIdExternalAuthSettings : ISettings
   {
     /// <summary>
     /// The url of the authentication server

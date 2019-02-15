@@ -5,10 +5,10 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Models
 {
     public class ConfigurationModel : BaseNopModel
     {
-        [NopResourceDisplayName("PS.Plugins.ExternalAuth.Google.ClientKeyIdentifier")]
+        [NopResourceDisplayName("PS.Plugins.ExternalAuth.OpenId.ClientKeyIdentifier")]
         public string ClientId { get; set; }
 
-        [NopResourceDisplayName("PS.Plugins.ExternalAuth.Google.ClientSecret")]
+        [NopResourceDisplayName("PS.Plugins.ExternalAuth.OpenId.ClientSecret")]
         public string ClientSecret { get; set; }
     }
 }
