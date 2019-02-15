@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!--<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>-->
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
@@ -33,25 +32,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Nop.Core">
-      <HintPath>Libs\Nop.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Nop.Data">
-      <HintPath>Libs\Nop.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Nop.Services">
-      <HintPath>Libs\Nop.Services.dll</HintPath>
-    </Reference>
-    <Reference Include="Nop.Web.Framework">
-      <HintPath>Libs\Nop.Web.Framework.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\ext\nopCommerce\src\Libraries\Nop.Core\Nop.Core.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ext\nopCommerce\src\Libraries\Nop.Data\Nop.Data.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ext\nopCommerce\src\Libraries\Nop.Services\Nop.Services.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ext\nopCommerce\src\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj">
+      <Private>false</Private>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -61,21 +60,8 @@
     <None Update="Content\Images\linkedin-signing.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Libs\Microsoft.AspNetCore.Authentication.Google.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="plugin.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <Target Name="CleanUp" AfterTargets="Build">
-    <Delete Files="$(TargetDir)\Nop.Core.dll" />
-    <Delete Files="$(TargetDir)\Nop.Core.pdb" />
-    <Delete Files="$(TargetDir)\Nop.Data.dll" />
-    <Delete Files="$(TargetDir)\Nop.Data.pdb" />
-    <Delete Files="$(TargetDir)\Nop.Services.dll" />
-    <Delete Files="$(TargetDir)\Nop.Services.pdb" />
-    <Delete Files="$(TargetDir)\Nop.Web.Framework.dll" />
-    <Copy SourceFiles="$(ProjectDir)\Libs\Microsoft.AspNetCore.Authentication.Google.dll" DestinationFolder="$(TargetDir)" />
-  </Target>
 </Project>
