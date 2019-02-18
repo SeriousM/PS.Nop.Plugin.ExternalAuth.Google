@@ -10,6 +10,24 @@
             <div class="panel-body">
                 @T("PS.Plugins.ExternalAuth.OpenId.Instructions")
                 <div class="form-group">
+                  <div class="col-md-3">
+                    <nop-label asp-for="Authority" />
+                  </div>
+                  <div class="col-md-9">
+                    <nop-editor asp-for="Authority" />
+                    <span asp-validation-for="Authority"></span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-3">
+                    <nop-label asp-for="ResponseType" />
+                  </div>
+                  <div class="col-md-9">
+                    <nop-editor asp-for="ResponseType" />
+                    <span asp-validation-for="ResponseType"></span>
+                  </div>
+                </div>
+                <div class="form-group">
                     <div class="col-md-3">
                         <nop-label asp-for="ClientId" />
                     </div>
@@ -26,6 +44,24 @@
                         <nop-editor asp-for="ClientSecret" />
                         <span asp-validation-for="ClientSecret"></span>
                     </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="RequiresHttps" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="RequiresHttps" />
+                        <span asp-validation-for="RequiresHttps"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-3">
+                    <nop-label asp-for="Scopes" />
+                  </div>
+                  <div class="col-md-9">
+                    <nop-editor asp-for="Scopes" />
+                    <span asp-validation-for="Scopes"></span>
+                  </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-9 col-md-offset-3">

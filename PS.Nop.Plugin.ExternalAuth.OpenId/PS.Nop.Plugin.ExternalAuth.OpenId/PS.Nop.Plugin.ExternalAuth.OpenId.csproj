@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Content\Images\openid-signing.psd" />
     <None Remove="Content\styles.css" />
@@ -32,24 +36,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ext\nopCommerce\src\Libraries\Nop.Core\Nop.Core.csproj">
+    <Reference Include="Nop.Core">
+      <HintPath>..\..\ext\nopCommerce\src\Presentation\Nop.Web.Framework\bin\Debug\netcoreapp2.1\Nop.Core.dll</HintPath>
       <Private>false</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ext\nopCommerce\src\Libraries\Nop.Data\Nop.Data.csproj">
+    </Reference>
+    <Reference Include="Nop.Data">
+      <HintPath>..\..\ext\nopCommerce\src\Presentation\Nop.Web.Framework\bin\Debug\netcoreapp2.1\Nop.Data.dll</HintPath>
       <Private>false</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ext\nopCommerce\src\Libraries\Nop.Services\Nop.Services.csproj">
+    </Reference>
+    <Reference Include="Nop.Services">
+      <HintPath>..\..\ext\nopCommerce\src\Presentation\Nop.Web.Framework\bin\Debug\netcoreapp2.1\Nop.Services.dll</HintPath>
       <Private>false</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ext\nopCommerce\src\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj">
+    </Reference>
+    <Reference Include="Nop.Web.Framework">
+      <HintPath>..\..\ext\nopCommerce\src\Presentation\Nop.Web.Framework\bin\Debug\netcoreapp2.1\Nop.Web.Framework.dll</HintPath>
       <Private>false</Private>
-    </ProjectReference>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

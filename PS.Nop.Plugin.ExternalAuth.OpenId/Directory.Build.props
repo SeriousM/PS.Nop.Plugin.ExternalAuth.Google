@@ -1,0 +1,10 @@
+<!--https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-build-->
+<Project>
+  <PropertyGroup>
+    <RuntimeFrameworkVersion>2.1.1</RuntimeFrameworkVersion>
+    <NOWARN>1591,1573,660,661,612,618</NOWARN>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+</Project>

@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
+using Nop.Core.Domain.Customers;
 using Nop.Services.Authentication.External;
+using Nop.Services.Common;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Security;
@@ -23,18 +25,21 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
         private readonly ILocalizationService _localizationService;
         private readonly IPermissionService _permissionService;
         private readonly ISettingService _settingService;
+        private readonly IGenericAttributeService _genericAttributeService;
 
         public PSOpenIdAuthenticationController(OpenIdExternalAuthSettings openIdExternalAuthSettings,
             IExternalAuthenticationService externalAuthenticationService,
             ILocalizationService localizationService,
             IPermissionService permissionService,
-            ISettingService settingService)
+            ISettingService settingService,
+            IGenericAttributeService genericAttributeService)
         {
             this._openIdExternalAuthSettings = openIdExternalAuthSettings;
             this._externalAuthenticationService = externalAuthenticationService;
             this._localizationService = localizationService;
             this._permissionService = permissionService;
             this._settingService = settingService;
+            _genericAttributeService = genericAttributeService;
         }
 
         [AuthorizeAdmin]
@@ -70,11 +75,11 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
                 return Configure();
 
             //save settings
-            _openIdExternalAuthSettings.ClientId = model.ClientId.Trim();
-            _openIdExternalAuthSettings.ClientSecret = model.ClientSecret.Trim();
-            _openIdExternalAuthSettings.ResponseType = model.ResponseType.Trim();
-            _openIdExternalAuthSettings.Scopes = model.Scopes.Trim();
-            _openIdExternalAuthSettings.Authority = model.Authority.Trim();
+            _openIdExternalAuthSettings.ClientId = model.ClientId?.Trim();
+            _openIdExternalAuthSettings.ClientSecret = model.ClientSecret?.Trim();
+            _openIdExternalAuthSettings.ResponseType = model.ResponseType?.Trim();
+            _openIdExternalAuthSettings.Scopes = model.Scopes?.Trim();
+            _openIdExternalAuthSettings.Authority = model.Authority?.Trim();
             _openIdExternalAuthSettings.RequiresHttps = model.RequiresHttps;
             _settingService.SaveSetting(_openIdExternalAuthSettings);
             SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
@@ -115,6 +120,10 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
                 ExternalDisplayIdentifier = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.Name)?.Value,
                 Claims = authenticateResult.Principal.Claims.Select(claim => new ExternalAuthenticationClaim(claim.Type, claim.Value)).ToList()
             };
+
+            var customer = _externalAuthenticationService.GetUserByExternalAuthenticationParameters(authenticationParameters);
+
+            _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.LastNameAttribute, "aasdasda");
 
             //authenticate Nop user
             return _externalAuthenticationService.Authenticate(authenticationParameters, returnUrl);
