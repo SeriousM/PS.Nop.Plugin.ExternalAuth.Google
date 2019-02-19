@@ -46,6 +46,7 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId
       //settings
       var defaultSettings = new OpenIdExternalAuthSettings
       {
+        ServiceName = "OpenId Server",
         RequiresHttps = true,
         Scopes = "openid profile email",
         ResponseType = "id_token"
