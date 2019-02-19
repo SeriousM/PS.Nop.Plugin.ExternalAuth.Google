@@ -55,7 +55,8 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
         ResponseType = _openIdExternalAuthSettings.ResponseType,
         Scopes = _openIdExternalAuthSettings.Scopes,
         Authority = _openIdExternalAuthSettings.Authority,
-        RequiresHttps = _openIdExternalAuthSettings.RequiresHttps
+        RequiresHttps = _openIdExternalAuthSettings.RequiresHttps,
+        ServiceName = _openIdExternalAuthSettings.ServiceName,
       };
 
       return View("~/Plugins/PS.ExternalAuth.OpenId/Views/Configure.cshtml", model);
@@ -83,6 +84,7 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
       _openIdExternalAuthSettings.ResponseType = model.ResponseType?.Trim();
       _openIdExternalAuthSettings.Scopes = model.Scopes?.Trim();
       _openIdExternalAuthSettings.Authority = model.Authority?.Trim();
+      _openIdExternalAuthSettings.ServiceName = model.ServiceName?.Trim();
       _openIdExternalAuthSettings.RequiresHttps = model.RequiresHttps;
       _settingService.SaveSetting(_openIdExternalAuthSettings);
       SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));

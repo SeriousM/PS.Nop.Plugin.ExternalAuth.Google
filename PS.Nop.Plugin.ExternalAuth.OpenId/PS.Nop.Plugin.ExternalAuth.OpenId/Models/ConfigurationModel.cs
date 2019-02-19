@@ -27,5 +27,9 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Models
     [NopResourceDisplayName("PS.Plugins.ExternalAuth.OpenId.Scopes")]
     [Required]
     public string Scopes { get; set; }
+    
+    [NopResourceDisplayName("PS.Plugins.ExternalAuth.OpenId.ServiceName")]
+    [Required]
+    public string ServiceName { get; set; }
   }
 }

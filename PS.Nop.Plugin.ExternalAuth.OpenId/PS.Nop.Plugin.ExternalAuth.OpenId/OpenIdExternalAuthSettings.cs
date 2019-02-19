@@ -34,9 +34,15 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId
     /// </summary>
     public string Scopes { get; set; }
 
+    /// <summary>
+    /// Name of the service
+    /// </summary>
+    public string ServiceName { get; set; }
+
     public bool IsValid()
     {
       return !string.IsNullOrWhiteSpace(Authority)
+          && !string.IsNullOrWhiteSpace(ServiceName)
           && !string.IsNullOrWhiteSpace(ResponseType)
           && !string.IsNullOrWhiteSpace(ClientId)
           && !string.IsNullOrWhiteSpace(Scopes);

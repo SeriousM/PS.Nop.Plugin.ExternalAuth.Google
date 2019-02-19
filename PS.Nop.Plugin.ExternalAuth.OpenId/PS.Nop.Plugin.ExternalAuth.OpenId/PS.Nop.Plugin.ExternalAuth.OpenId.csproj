@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Content\Images\openid-signing.psd" />
     <None Remove="Content\styles.css" />
     <None Remove="logo.jpg" />
     <None Remove="Views\Configure.cshtml" />
@@ -58,12 +57,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Content\Images\openid-signing.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Content\Images\linkedin-signing.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="plugin.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

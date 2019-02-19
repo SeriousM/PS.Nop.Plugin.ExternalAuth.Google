@@ -1,9 +1,12 @@
+@using PS.Nop.Plugin.ExternalAuth.OpenId
+@inject OpenIdExternalAuthSettings OpenIdExternalAuthSettings
+
 @{
     Layout = "";
-    Html.AddCssFileParts("~/Plugins/PS.ExternalAuth.OpenId/Content/styles.css");    
+    Html.AddCssFileParts("~/Plugins/PS.ExternalAuth.OpenId/Content/styles.css");
 }
 <div class="openid-login-block">
     <div class="buttons">
-        <a asp-controller="PSOpenIdAuthentication" asp-action="login" asp-route-returnurl="@Context.Request.Query["ReturnUrl"]" class="openid-btn"></a>
+        <a asp-controller="PSOpenIdAuthentication" asp-action="login" asp-route-returnurl="@Context.Request.Query["ReturnUrl"]" class="button-1">@OpenIdExternalAuthSettings.ServiceName</a>
     </div>
 </div>
