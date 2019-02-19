@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Nop.Core.Domain.Customers;
 using Nop.Services.Authentication.External;
 using Nop.Services.Common;
 using Nop.Services.Configuration;
@@ -20,26 +19,24 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
 {
   public class PSOpenIdAuthenticationController : BasePluginController
   {
-    private readonly OpenIdExternalAuthSettings _openIdExternalAuthSettings;
     private readonly IExternalAuthenticationService _externalAuthenticationService;
     private readonly ILocalizationService _localizationService;
+    private readonly OpenIdExternalAuthSettings _openIdExternalAuthSettings;
     private readonly IPermissionService _permissionService;
     private readonly ISettingService _settingService;
-    private readonly IGenericAttributeService _genericAttributeService;
 
     public PSOpenIdAuthenticationController(OpenIdExternalAuthSettings openIdExternalAuthSettings,
-        IExternalAuthenticationService externalAuthenticationService,
-        ILocalizationService localizationService,
-        IPermissionService permissionService,
-        ISettingService settingService,
-        IGenericAttributeService genericAttributeService)
+                                            IExternalAuthenticationService externalAuthenticationService,
+                                            ILocalizationService localizationService,
+                                            IPermissionService permissionService,
+                                            ISettingService settingService,
+                                            IGenericAttributeService genericAttributeService)
     {
       _openIdExternalAuthSettings = openIdExternalAuthSettings;
       _externalAuthenticationService = externalAuthenticationService;
       _localizationService = localizationService;
       _permissionService = permissionService;
       _settingService = settingService;
-      _genericAttributeService = genericAttributeService;
     }
 
     [AuthorizeAdmin]
@@ -47,7 +44,9 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
     public IActionResult Configure()
     {
       if (!_permissionService.Authorize(StandardPermissionProvider.ManageExternalAuthenticationMethods))
+      {
         return AccessDeniedView();
+      }
 
       var model = new ConfigurationModel
       {
@@ -69,10 +68,14 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
     public IActionResult Configure(ConfigurationModel model)
     {
       if (!_permissionService.Authorize(StandardPermissionProvider.ManageExternalAuthenticationMethods))
+      {
         return AccessDeniedView();
+      }
 
       if (!ModelState.IsValid)
+      {
         return Configure();
+      }
 
       //save settings
       _openIdExternalAuthSettings.ClientId = model.ClientId?.Trim();
@@ -90,15 +93,19 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
     public IActionResult Login(string returnUrl)
     {
       if (!_externalAuthenticationService.ExternalAuthenticationMethodIsAvailable(OpenIdExternalAuthConstants.ProviderSystemName))
+      {
         throw new NopException("OpenId authentication module cannot be loaded");
+      }
 
       if (!_openIdExternalAuthSettings.IsValid())
+      {
         throw new NopException("OpenId authentication module not configured");
+      }
 
       //configure login callback action
       var authenticationProperties = new AuthenticationProperties
       {
-        RedirectUri = Url.Action("LoginCallback", "PSOpenIdAuthentication", new { returnUrl = returnUrl })
+        RedirectUri = Url.Action("LoginCallback", "PSOpenIdAuthentication", new { returnUrl })
       };
 
       return Challenge(authenticationProperties, OpenIdConnectDefaults.AuthenticationScheme);
@@ -111,7 +118,9 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
 
       var authenticateResult = await HttpContext.AuthenticateAsync(OpenIdConnectDefaults.AuthenticationScheme);
       if (!authenticateResult.Succeeded || !authenticateResult.Principal.Claims.Any())
+      {
         return RedirectToRoute("Login");
+      }
 
       //create external authentication parameters
       var authenticationParameters = new ExternalAuthenticationParameters
@@ -122,18 +131,6 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId.Controllers
         ExternalDisplayIdentifier = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.Name)?.Value,
         Claims = authenticateResult.Principal.Claims.Select(claim => new ExternalAuthenticationClaim(claim.Type, claim.Value)).ToList()
       };
-
-      var customer = _externalAuthenticationService.GetUserByExternalAuthenticationParameters(authenticationParameters);
-
-      ////var idToken = authenticateResult.Properties.GetTokenValue("id_token");
-
-      var givenName = authenticateResult.Principal.FindFirst(ClaimTypes.GivenName)?.Value;
-      var familyName = authenticateResult.Principal.FindFirst(ClaimTypes.Surname)?.Value;
-
-      if (givenName != null)
-        _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.FirstNameAttribute, givenName);
-      if (familyName != null)
-        _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.LastNameAttribute, familyName);
 
       //authenticate Nop user
       return _externalAuthenticationService.Authenticate(authenticationParameters, returnUrl);

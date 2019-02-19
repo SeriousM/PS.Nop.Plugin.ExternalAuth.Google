@@ -40,7 +40,6 @@ namespace PS.Nop.Plugin.ExternalAuth.OpenId
           && !string.IsNullOrWhiteSpace(ResponseType)
           && !string.IsNullOrWhiteSpace(ClientId)
           && !string.IsNullOrWhiteSpace(Scopes);
-
     }
   }
 }
